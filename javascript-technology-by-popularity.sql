@@ -2,14 +2,14 @@
 # Top JS frameworks and libraries
 
 SELECT 
-  client,
+  device,
   app,
   pages,
   total,
   pct
 FROM (
   SELECT
-    _TABLE_SUFFIX AS client,
+    _TABLE_SUFFIX AS device,
     app,
     COUNT(DISTINCT url) AS pages,
     total,
@@ -31,12 +31,12 @@ FROM (
   WHERE
     category IN ('JavaScript frameworks', 'JavaScript libraries')
   GROUP BY
-    client,
+    device,
     app,
     total
 )
 WHERE   
   pop_rank <= 10
 ORDER BY
-  client,
+  device,
   pct DESC

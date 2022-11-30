@@ -32,7 +32,7 @@ WITH pages AS (
 
 technologies AS (
   SELECT
-    _TABLE_SUFFIX AS client,
+    _TABLE_SUFFIX AS device,
     app,
     url,
   FROM
@@ -40,7 +40,7 @@ technologies AS (
   WHERE
     app IN ('React', 'Svelte')
   GROUP BY
-    client,
+    device,
     app,
     url
 )
@@ -53,15 +53,15 @@ SELECT
   COUNTIF(lcp) / COUNT(0) AS pct_lcp_good,
 FROM (
   SELECT
-    device,
+    pages.device AS device,
     app,
     CrUX.largest_contentful_paint AS lcp,
   FROM
     pages
   INNER JOIN
     technologies
-  ON
-    pages.url = technologies.url
+  USING
+    (device, url)
   WHERE
     CrUX IS NOT NULL
 )
