@@ -1,5 +1,5 @@
 #standardSQL
-# Total number of distinct URLs in the dataset (mobile)
+# Total number of distinct URLs in the dataset
 
 SELECT
   _TABLE_SUFFIX AS device,
