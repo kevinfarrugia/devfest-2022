@@ -1,6 +1,6 @@
 #standardSQL
 # fetchpriority opportunities
-# - when there is more than one high priority inflight request AND
+# - when there is more than one render-blocking request AND
 # - when there is render-blocking JavaScript AND
 # - LCP is image
 

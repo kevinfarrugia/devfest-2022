@@ -1,6 +1,16 @@
 #standardSQL
 # Top JS frameworks and libraries
 
+WITH totals AS (
+  SELECT
+    _TABLE_SUFFIX,
+    COUNT(0) AS total
+  FROM
+    `httparchive.summary_pages.2022_10_01_*`
+  GROUP BY
+    _TABLE_SUFFIX
+)
+
 SELECT 
   device,
   app,
@@ -17,15 +27,8 @@ FROM (
     RANK() OVER (PARTITION BY _TABLE_SUFFIX ORDER BY COUNT(DISTINCT url) DESC) AS pop_rank
   FROM
     `httparchive.technologies.2022_10_01_*`
-  JOIN (
-    SELECT
-      _TABLE_SUFFIX,
-      COUNT(0) AS total
-    FROM
-      `httparchive.summary_pages.2022_10_01_*`
-    GROUP BY
-      _TABLE_SUFFIX
-  )
+  JOIN 
+    totals
   USING
     (_TABLE_SUFFIX)
   WHERE

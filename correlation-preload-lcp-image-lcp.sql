@@ -5,7 +5,7 @@ WITH lighthouse AS (
   SELECT
     IF(device = 'mobile', 'phone', 'desktop') AS device,
     SUBSTR(url, 0, LENGTH(url) - 1) AS origin,
-    CAST(score AS FLOAT64) < 0.9 AS should_preload_lcp_image
+    CAST(score AS FLOAT64) >= 0.9 AS is_passing
   FROM (
     SELECT
       _TABLE_SUFFIX AS device,
@@ -32,7 +32,7 @@ pages AS (
 
 SELECT
   device,
-  should_preload_lcp_image,
+  is_passing,
   APPROX_QUANTILES(p75_lcp, 1000)[OFFSET(500)] AS median_p75_lcp,
   COUNT(0) AS freq
 FROM
@@ -43,7 +43,7 @@ USING
   (device, origin)
 GROUP BY
   device,
-  should_preload_lcp_image
+  is_passing
 ORDER BY
   device,
-  should_preload_lcp_image
+  is_passing
